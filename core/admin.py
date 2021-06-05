@@ -1,3 +1,9 @@
 from django.contrib import admin
-
+from .models import UserProfile, MainCategory
 # Register your models here.
+
+admin.site.site_title = 'Django News'
+admin.site.site_header = 'Django News'
+
+admin.site.register(UserProfile)
+admin.site.register(MainCategory)

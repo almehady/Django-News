@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>World Vision</title>
+    <title>Django News</title>
     <!-- plugin css for this page -->
     <link
       rel="stylesheet"
@@ -51,7 +51,7 @@
                       <a href="#">ENGLISH</a>
                     </li>
                     <li>
-                      <a href="#">ESPAÑOL</a>
+                      <a href="#">Bangla</a>
                     </li>
                   </ul>
                   <ul class="social-media">
@@ -108,35 +108,13 @@
                       </button>
                     </li>
                     <li class="nav-item active">
-                      <a class="nav-link active" href="index.html">Home</a>
+                      <a class="nav-link active" href="/">Home</a>
                     </li>
+                     {% for menu in menu_category %}
                     <li class="nav-item">
-                      <a class="nav-link" href="pages/world.html">World</a>
+                      <a class="nav-link" href="/{{ menu.slug }}">{{ menu.title }}</a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/author.html">Magazine</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/news-post.html">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/business.html">Business</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/sports.html">Sports</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/art.html">Art</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/politics.html">Politics</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/real-estate.html">Real estate</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="pages/travel.html">Travel</a>
-                    </li>
+                            {% endfor %}
                     <li class="nav-item">
                       <a class="nav-link" href="#"><i class="mdi mdi-magnify"></i></a>
                     </li>
@@ -797,7 +775,7 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="d-flex justify-content-between">
-                  <img src="assets/images/logo.png" class="footer-logo" alt="logo" />
+                  <img src="{% static 'images/logo.png' %}" class="footer-logo" alt="logo" />
 
                   <div class="d-flex justify-content-end footer-social">
                     <h5 class="m-0 font-weight-600 mr-3 d-none d-lg-flex">Follow on</h5>
