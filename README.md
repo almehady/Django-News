@@ -17,11 +17,16 @@ Once made that you can download the project using git or simply downloading it i
 
 (using git)
 
-$ git clone https://github.com/almehady/Django-News.git
-$ cd workshops_project/
+```$ git clone https://github.com/almehady/Django-News.git```
+
+```$ cd workshops_project/```
+
 (unzipping it)
-$ unzip workshops_project-master.zip
-$ cd workshops_project-master/
+
+```$ unzip workshops_project-master.zip```
+
+```$ cd workshops_project-master/```
+
 Using pip (inside the virtual environment) install the necessary dependencies with pip from requirements.txt:
 
 ``` $ pip install -r requirements.txt```
