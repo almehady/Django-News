@@ -2,11 +2,13 @@
 <!DOCTYPE html>
 <html lang="zxx">
   <head>
+    {% block meta %}
     <!-- Required meta tags -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Django News</title>
+    <title>{% block head_title %} Home | Django News {% endblock %}</title>
+    {% endblock %}
     <!-- plugin css for this page -->
     <link
       rel="stylesheet"
@@ -126,6 +128,7 @@
             <!-- partial -->
           </div>
         </header>
+        {% block content %}
         <div class="container">
           <div class="banner-top-thumb-wrap">
             <div class="d-lg-flex justify-content-between align-items-center">
@@ -718,6 +721,7 @@
             </div>
           </div>
         </div>
+        {% endblock %}
         <!-- main-panel ends -->
         <!-- container-scroller ends -->
 
