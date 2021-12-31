@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import TemplateView, ListView, DetailView, View
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import MainCategory, Content
+from .models import *
 # Create your views here.
 
 class MainCategoryDetailView(DetailView):
@@ -13,15 +13,30 @@ class MainCategoryDetailView(DetailView):
 
 
 def category(request, slug):
-    latest_news = Content.objects.all().filter(status='P', is_home=True).order_by('-id')[0:6]
+    latest_news = News.objects.all().filter(status='P', is_home=True).order_by('-id')[0:6]
     cat = get_object_or_404(MainCategory, slug=slug)
-    contents = Content.objects.filter(main_category=cat).order_by('-id')
+    contents = News.objects.filter(main_category=cat).order_by('-id')
     paginator = Paginator(contents, 18)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'cat': cat,
         'page_obj': page_obj,
-        'latest_content': latest_news
+        'contents': contents,
+        'latest_news': latest_news
     }
     return render(request, 'main_category_detail.html', context)
+
+
+def news_details(request, slug):
+    news_detail = News.objects.all().filter(slug=slug)
+    current_news = get_object_or_404(News, slug=slug)
+    you_may_like = News.objects.all().filter(main_category=current_news.main_category).order_by('-id').exclude(slug=slug)[0:5]
+    context ={
+        'news_detail': news_detail,
+        'you_may_like': you_may_like
+    }
+    return render(request, 'news_detail.html', context)
+# class NewsDetailView(DetailView):
+#     model = News
+#     template_name = '.html'

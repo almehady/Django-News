@@ -2,6 +2,7 @@ from django.db import models
 from autoslug import AutoSlugField
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your models here.
 
 STATUS_CHOICES = (
@@ -54,12 +55,12 @@ class MainCategory(models.Model):
     featured = models.BooleanField(help_text='Select this content for main menu', default=False)
     sequence = models.CharField(max_length=3, blank=True, null=True)
     status = models.CharField(choices=STATUS_CHOICES, max_length=1, default='P')
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
     class Meta:
-        ordering = ['-created']
+        ordering = ['-created_at']
         verbose_name = 'Main Category'
         verbose_name_plural = 'Main Categories'
 
@@ -67,14 +68,33 @@ class MainCategory(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        from django.urls import reverse
         return reverse('core:main-category-detail', args=[str(self.slug)])
 
 
-class Content(models.Model):
+class NewsRoom(models.Model):
+    title = models.CharField(max_length=200, blank=True, unique=True)
+    description = HTMLField(blank=True, null=True)
+    sequence = models.CharField(max_length=3, blank=True, null=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=1, default='P')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    class Meta:
+        ordering = ['sequence']
+
+    def __str__(self):
+        return self.title
+
+
+class News(models.Model):
     title = models.CharField(max_length=200)
     slug = AutoSlugField(populate_from=title, editable=True, unique=True, unique_with=['created__month', 'status'],
                          help_text='this-slug-must-be-english')
+    news_room = models.ForeignKey(
+        'NewsRoom',
+        on_delete=models.CASCADE, blank=True, help_text='Select news room', null=True,
+    )
     main_category = models.ForeignKey(
         'MainCategory',
         on_delete=models.CASCADE, blank=False, help_text='Select main category'
@@ -82,23 +102,25 @@ class Content(models.Model):
     is_home = models.BooleanField(help_text='Select this content for home page')
     description = HTMLField()
     content_image = models.ImageField(upload_to='content_images/', blank=False)
+    quote_text = models.TextField(blank=True, null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
-    video_link = models.CharField(max_length=100, blank=False, help_text='Input YouTube Video Embed Code')
+    video_link = models.CharField(max_length=100, blank=True, null=True, help_text='Input YouTube Video Embed Code')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     meta_title = models.CharField(max_length=250, blank=True, null=True)
     meta_description = models.TextField(blank=True, null=True)
     meta_keywords = models.CharField(max_length=300, blank=True, null=True, help_text='Comma Separated Keyword for search engines')
     status = models.CharField(choices=STATUS_CHOICES, max_length=1, default='P')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created']
-        verbose_name = 'News Content'
-        verbose_name_plural = 'News Contents'
+        ordering = ['-created_at']
+        verbose_name = 'News'
+        verbose_name_plural = 'News'
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        from django.urls import reverse
-        return reverse('core:content-detail', args=[str(self.slug)])
+        return reverse('core:news-detail', args=[str(self.slug)])

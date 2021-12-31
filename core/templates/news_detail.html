@@ -1,0 +1,93 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% load static %}
+
+    <title>{% block head_title %} {{ news.title }} | Django News {% endblock %}</title>
+    <!-- plugin css for this page -->
+
+      {% block content %}
+    <div class="container">
+      <div class="row">
+        {% for object in news_detail %}
+        <div class="col-sm-12">
+          <div class="news-post-wrapper">
+            <div class="news-post-wrapper-sm ">
+              <h1 class="text-center">
+                {{ object.title }}
+              </h1>
+              <div class="text-center">
+                <a href="#" class="btn btn-dark font-weight-bold mb-4">{{ object.main_category.title}}</a>
+              </div>
+              <p
+                class="fs-15 d-flex justify-content-center align-items-center m-0"
+              >
+                {{ object.news_room }} | {{ object.created_at }}
+              </p>
+
+            </div>
+
+
+            <div class="row mb-5">
+              <div class="col-lg-12">
+                <img
+                  src="{{ object.content_image.url }}"
+                  alt="news"
+                  class="img-fluid mb-4"
+                />
+              </div>
+              <div class="col-lg-12">
+
+                <p>
+                  {{ object.description|safe}}
+                </p>
+              </div>
+            </div>
+
+              <div class="text-center pb-5 mb-5 border-bottom">
+                <a
+                  href="#"
+                  class="btn btn-dark font-weight-bold mr-2 mb-2 mb-sm-0"
+                  >News</a
+                >
+                <a
+                  href="#"
+                  class="btn btn-dark font-weight-bold mr-2 mb-2 mb-sm-0"
+                  >News</a
+                >
+
+              </div>
+
+              <h1 class="font-weight-600 text-center mb-5">
+                You may also like
+              </h1>
+{% for news in you_may_like %}
+              <div class="border-top py-5">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <div class="position-relative image-hover">
+                      <img
+                        src="{{news.content_image.url}}"
+                        alt="{{ news.image_caption }}"
+                        class="img-fluid"
+                      />
+<!--                      <span class="thumb-title">NEWS</span>-->
+                    </div>
+                  </div>
+                  <div class="col-sm-8">
+                    <div class="position-relative image-hover">
+                      <h1 class="font-weight-600">
+                        <a href="/news/{{news.slug}}"> {{ news.title }}</a>
+                      </h1>
+                      <p class="fs-15">{{news.news_room}} | {{news.created_at}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+{% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endblock %}
