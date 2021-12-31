@@ -3,11 +3,19 @@ from autoslug import AutoSlugField
 from tinymce.models import HTMLField
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.template.defaultfilters import slugify
+from unidecode import unidecode
 # Create your models here.
 
 STATUS_CHOICES = (
     ('D', 'Draft'),
     ('P', 'Published')
+)
+
+HOME_NEWS_CHOICES = (
+    ('S', 'Slider'),
+    ('6', 'Top 6'),
+    ('N', 'None'),
 )
 
 
@@ -89,8 +97,8 @@ class NewsRoom(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=200)
-    slug = AutoSlugField(populate_from=title, editable=True, unique=True, unique_with=['created__month', 'status'],
-                         help_text='this-slug-must-be-english')
+    # slug = AutoSlugField(populate_from='title', unique=True, editable=True, allow_unicode=True)
+    slug = models.CharField(unique=True, null=False, blank=True, max_length=200)
     news_room = models.ForeignKey(
         'NewsRoom',
         on_delete=models.CASCADE, blank=True, help_text='Select news room', null=True,
@@ -105,12 +113,11 @@ class News(models.Model):
     quote_text = models.TextField(blank=True, null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
     video_link = models.CharField(max_length=100, blank=True, null=True, help_text='Input YouTube Video Embed Code')
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     meta_title = models.CharField(max_length=250, blank=True, null=True)
     meta_description = models.TextField(blank=True, null=True)
     meta_keywords = models.CharField(max_length=300, blank=True, null=True, help_text='Comma Separated Keyword for search engines')
     status = models.CharField(choices=STATUS_CHOICES, max_length=1, default='P')
+    top_news = models.CharField(choices=HOME_NEWS_CHOICES, max_length=1, default='N')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -124,3 +131,8 @@ class News(models.Model):
 
     def get_absolute_url(self):
         return reverse('core:news-detail', args=[str(self.slug)])
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title, allow_unicode=True)
+        return super().save(*args, **kwargs)

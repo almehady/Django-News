@@ -8,9 +8,9 @@ from .views import *
 app_name = 'core'
 
 urlpatterns = [
-        path('', TemplateView.as_view(template_name="index.html")),
+        path('', views.index, name='home'),
         path('<slug:slug>/', category, name='main-category-detail'),
-        path('news/<slug:slug>/', views.news_details, name='news-detail'),
+        path('news/<slug>/', views.news_details, name='news-detail'),
         # path('news/<slug:slug>/', NewsDetailView.as_view(), name='news-detail'),
 
 

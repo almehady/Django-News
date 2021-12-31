@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load static %}
 
-    <title>{% block head_title %} {{ news.title }} | Django News {% endblock %}</title>
+    <title>{% block head_title %} {{ current_news.title }} | Django News {% endblock %}</title>
     <!-- plugin css for this page -->
 
       {% block content %}
@@ -36,6 +36,9 @@
                 />
               </div>
               <div class="col-lg-12">
+                <p class="text-white font-weight-medium">
+                   {{ object.quote_text}}
+                </p>
 
                 <p>
                   {{ object.description|safe}}
