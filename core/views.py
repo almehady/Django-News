@@ -12,7 +12,7 @@ def index(request):
     slider_news = News.objects.all().filter(status='P', is_home=True, top_news='S').order_by('-id')[0:4]
     six_news = News.objects.all().filter(status='P', is_home=True, top_news='6').order_by('-id')[0:6]
     world_news = News.objects.all().filter(status='P', is_home=True, main_category=1).order_by('-id')[0:4]
-    popular_news = News.objects.all().filter(status='P', is_home=True, main_category=2).order_by('-id')[0:4]
+    popular_news = News.objects.all().filter(status='P', is_home=True, main_category=2).order_by('-id')[0:9]
     editor_choice = News.objects.all().filter(status='P', is_home=True, main_category=2).order_by('-id')[0:5]
     editor_choice_1 = editor_choice[0:1]
     editor_choice_4 = editor_choice[1:5]

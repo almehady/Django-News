@@ -34,7 +34,7 @@
               <span class="thumb-title">{{ news.main_category.title }}</span>
             </div>
             <h5 class="font-weight-600 mt-3">
-             <a href="/news/{{news.slug}}">{{ news.title }}</a>
+             <a href="{% url 'core:news-detail' news.slug %}">{{ news.title }}</a>
             </h5>
           </div>
           {% endfor %}

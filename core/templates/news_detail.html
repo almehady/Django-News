@@ -79,7 +79,7 @@
                   <div class="col-sm-8">
                     <div class="position-relative image-hover">
                       <h1 class="font-weight-600">
-                        <a href="/news/{{news.slug}}"> {{ news.title }}</a>
+                        <a href="{% url 'core:news-detail' news.slug %}"> {{ news.title }}</a>
                       </h1>
                       <p class="fs-15">{{news.news_room}} | {{news.created_at}}</p>
                     </div>

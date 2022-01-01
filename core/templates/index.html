@@ -28,7 +28,13 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- endinject -->
+
 </head>
+    <style>
+        .a {
+            color: #1a1a1a;
+        }
+        </style>
 
 <body>
 <div class="container-scroller">
@@ -39,8 +45,8 @@
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="d-flex justify-content-between align-items-center navbar-top">
                         <ul class="navbar-left">
-                            <li>Wed, March 4, 2020</li>
-                            <li>30°C,London</li>
+                            <li id="date"></li>
+<!--                            <li>30°C,London</li>-->
                         </ul>
                         <div>
                             <a class="navbar-brand" href="/"
@@ -199,7 +205,7 @@
                                     </p>
                                 </div>
                                 <div class="carousel-image">
-                                    <img src="{{ slider.content_image.url}}" alt="{{ slider.title}}"/>
+                                    <img src="{{ slider.content_image.url}}" alt="{{ slider.title}}" style="max-width: 100%"/>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +225,7 @@
 
                                 <p class="fs-14 m-0 font-weight-medium line-height-sm">
                                     <img src="{{six.content_image.url}}" alt="{{six.title}}" style="max-width: 20px;">
-                                    {{ six.title }}
+                                   <a href="{% url 'core:news-detail' six.slug %}">{{ six.title }}</a>
                                 </p>
                             </div>
                         </div>
@@ -283,7 +289,7 @@
                                 <span class="thumb-title">NEWS</span>
                             </div>
                             <h1 class="font-weight-600 mt-3">
-                                {{ ed1.title }}
+                               <a href="{% url 'core:news-detail' ed1.slug %}">{{ ed1.title }}</a>
                             </h1>
                             <p class="fs-15 font-weight-normal">
                                {{ ed1.quote_text|slice:'200'}} ...
@@ -300,7 +306,7 @@
                                         <span class="thumb-title">POLITICS</span>
                                     </div>
                                     <h5 class="font-weight-600 mt-3">
-                                         {{ ed4.title }}
+                                        <a href="{% url 'core:news-detail' ed4.slug %}">{{ ed4.title }}</a>
                                     </h5>
                                     <p class="fs-15 font-weight-normal">
                                         {{ ed4.quote_text|slice:'50'}} ...
@@ -336,7 +342,7 @@
                                         <span class="thumb-title">{{ pop.image_caption}}</span>
                                     </div>
                                     <h5 class="font-weight-600 mt-3">
-                                        {{ pop.title }}
+                                       <a href="{% url 'core:news-detail' pop.slug %}">{{ pop.title }}</a>
                                     </h5>
                                 </div>
                                 {% endfor %}
@@ -364,7 +370,7 @@
                                 <div class="col-sm-12">
                                     <div class="border-bottom pb-3">
                                         <h5 class="font-weight-600 mt-0 mb-0">
-                                            {{ latest.title }}
+                                          <a href="{% url 'core:news-detail' latest.slug %}">{{ latest.title }}</a>
                                         </h5>
                                         <p class="text-color m-0 d-flex align-items-center">
                                             <span class="fs-10 mr-1">{{ latest.created_at|date }}</span>
@@ -501,6 +507,7 @@
             <!-- partial -->
         </div>
     </div>
+</div>
     <!-- inject:js -->
     <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
     <!-- endinject -->
@@ -510,5 +517,10 @@
     <!-- Custom js for this page-->
     <script src="{% static 'js/demo.js' %}"></script>
     <!-- End custom js for this page-->
+
+    <script>
+const d = new Date()
+document.getElementById("date").innerHTML = d;
+</script>
 </body>
 </html>
