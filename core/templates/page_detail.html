@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+{% load i18n %}
+{% load static %}
+
+<title>{% block head_title %} {{ object.title }} | Django News {% endblock %}</title>
+<!-- plugin css for this page -->
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="news-post-wrapper">
+                <div class="news-post-wrapper-sm ">
+                    <h1 class="text-center">
+                        {{ object.title }}
+                    </h1>
+
+                    <p class="fs-15 d-flex justify-content-center align-items-center m-0">
+                        {{ object.created_at }}
+                    </p>
+
+                </div>
+
+
+                <div class="row mb-5">
+                    <div class="col-lg-12">
+                        {% if object.content_image %}
+                        <img
+                                src="{{ object.content_image.url }}"
+                                alt="news" loading="lazy"
+                                class="img-fluid mb-4"
+                        />
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-12">
+
+                        <p>
+                            {{ object.description|safe}}
+                        </p>
+                    </div>
+                    <div>
+                        <p>Share:</p>
+                        <a href="https://www.facebook.com/sharer.php?u={{ request.get_host }}/news/{{ object.slug }}/"
+                           onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                           title="Share on Facebook" class="facebook"><i class="fa fa-facebook-square"></i> Facebook</a>
+                        <!--<a href="#" class="pinterest"><i class="fa fa-pinterest"></i> Pinterest</a>-->
+                        <a href="https://www.linkedin.com/shareArticle?url={{ request.get_host }}/news/{{ object.slug }}/"
+                           onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                           title="Share on LinkedIn" class="linkedin"><i class="fa fa-linkedin-square"></i>Linkedin</a>
+                        <a href="https://twitter.com/intent/tweet?text={{ object.title }}&amp;url={{ request.get_host }}/news/{{ object.slug }}/"
+                           onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                           class="twitter" title="Share on Twitter"><i class="fa fa-twitter-square"></i> Twitter</a>
+                    </div>
+                </div>
+
+
+
+
+    </div>
+
+</div>
+</div>
+{% endblock %}

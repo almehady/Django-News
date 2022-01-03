@@ -95,3 +95,8 @@ def search(request):
         'page_obj': page_obj
     }
     return render(request, template, context)
+
+
+class PageDetailView(DetailView):
+    model = Page
+    template_name = 'page_detail.html'

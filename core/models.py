@@ -63,11 +63,10 @@ class MainCategory(models.Model):
     description = HTMLField(blank=True, null=True)
     image = models.ImageField(upload_to='category_images/', null=True, blank=True)
     featured = models.BooleanField(help_text='Select this content for main menu', default=False)
-    sequence = models.CharField(max_length=3, blank=True, null=True)
+    sequence = models.PositiveIntegerField(blank=True, null=True, default=0)
     status = models.CharField(choices=STATUS_CHOICES, max_length=1, default='P')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
 
     class Meta:
         ordering = ['-created_at']
@@ -138,4 +137,34 @@ class News(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title, allow_unicode=True)
+        return super().save(*args, **kwargs)
+
+
+class Page(models.Model):
+    title = models.CharField(max_length=200)
+    # slug = AutoSlugField(populate_from='title', unique=True, editable=True, allow_unicode=True)
+    slug = models.CharField(unique=True, null=False, blank=True, max_length=200)
+    description = HTMLField()
+    content_image = models.ImageField(upload_to='content_images/', blank=True)
+    image_caption = models.CharField(max_length=200, blank=True, null=True)
+    meta_title = models.CharField(max_length=250, blank=True, null=True)
+    meta_description = models.TextField(blank=True, null=True)
+    meta_keywords = models.CharField(max_length=300, blank=True, null=True, help_text='Comma Separated Keyword for search engines')
+    sequence = models.PositiveIntegerField(blank=True, null=True, default=0)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=1, default='P')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('core:page-detail', args=[str(self.slug)])
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
         return super().save(*args, **kwargs)

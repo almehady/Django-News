@@ -13,6 +13,7 @@ urlpatterns = [
         path('<slug:slug>/', category, name='main-category-detail'),
         path('news/<slug>/', views.news_details, name='news-detail'),
         path('tag/<slug:slug>/', views.tagged, name='tag-detail'),
+        path('page/<slug:slug>/', PageDetailView.as_view(), name='page-detail'),
 
 
         # path('news/<slug:slug>/', NewsDetailView.as_view(), name='news-detail'),
