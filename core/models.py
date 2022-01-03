@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.template.defaultfilters import slugify
 from unidecode import unidecode
+from taggit.managers import TaggableManager
+
 # Create your models here.
 
 STATUS_CHOICES = (
@@ -113,6 +115,7 @@ class News(models.Model):
     quote_text = models.TextField(blank=True, null=True)
     image_caption = models.CharField(max_length=200, blank=True, null=True)
     video_link = models.CharField(max_length=100, blank=True, null=True, help_text='Input YouTube Video Embed Code')
+    tags = TaggableManager()
     meta_title = models.CharField(max_length=250, blank=True, null=True)
     meta_description = models.TextField(blank=True, null=True)
     meta_keywords = models.CharField(max_length=300, blank=True, null=True, help_text='Comma Separated Keyword for search engines')

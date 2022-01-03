@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, ListView, DetailView, View
 from django.core.paginator import Paginator
 from django.db.models import Q
 from .models import *
+from taggit.models import Tag
 # Create your views here.
 
 
@@ -61,6 +62,36 @@ def news_details(request, slug):
     }
     return render(request, 'news_detail.html', context)
 
-# class NewsDetailView(DetailView):
-#     model = News
-#     template_name = '.html'
+
+def tagged(request, slug):
+    tag = get_object_or_404(Tag, slug=slug)
+    contents = News.objects.filter(tags=tag)
+    paginator = Paginator(contents, 18)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'tag': tag,
+        'contents': contents,
+        'page_obj': page_obj,
+    }
+    return render(request, 'tag_detail.html', context)
+
+
+def search(request):
+    template = 'search.html'
+    query = request.GET.get('q')
+    if query:
+        query_list = News.objects.filter(Q(title__icontains=query) | Q(description__icontains=query)).distinct()
+        query_list = query_list.filter(status='P').order_by('-created_at')
+    else:
+        query_list = request.GET.get('q')
+    paginator = Paginator(query_list, 20)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {
+        'query': query,
+        'query_list': query_list,
+        'page_obj': page_obj
+    }
+    return render(request, template, context)

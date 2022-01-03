@@ -1,0 +1,48 @@
+{% extends "index.html" %}
+{% load i18n %}
+
+<title>{% block head_title %} {{ request.GET.q }} | Django News {% endblock %}</title>
+<!-- plugin css for this page -->
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="text-center">
+                <p class="text-secondary fs-15">
+                    {% if request.GET.q != '' %}
+                    Search result of <strong>{{ request.GET.q }}</strong>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+
+        <div class="row">
+            {% for news in page_obj %}
+            <div class="col-sm-3  mb-5 mb-sm-2">
+                <div class="position-relative image-hover">
+                    <img
+                            src="{{ news.content_image.url}}"
+                            class="img-fluid"
+                            alt="{{ news.title }}"
+                    />
+                    <span class="thumb-title">{{ news.main_category.title }}</span>
+                </div>
+                <h5 class="font-weight-600 mt-3">
+                    <a href="{% url 'core:news-detail' news.slug %}">{{ news.title }}</a>
+                </h5>
+                {% empty %}
+                <p style="padding-left:25px;"><i class="mdi mdi-emoticon-angry-outline"></i> No result found, please
+                    try with different keyword</p>
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+    </div>
+    {% endblock %}
+</div>

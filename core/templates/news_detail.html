@@ -2,95 +2,104 @@
 {% load i18n %}
 {% load static %}
 
-    <title>{% block head_title %} {{ current_news.title }} | Django News {% endblock %}</title>
-    <!-- plugin css for this page -->
+<title>{% block head_title %} {{ current_news.title }} | Django News {% endblock %}</title>
+<!-- plugin css for this page -->
 
-      {% block content %}
-    <div class="container">
-      <div class="row">
+{% block content %}
+<div class="container">
+    <div class="row">
         {% for object in news_detail %}
         <div class="col-sm-12">
-          <div class="news-post-wrapper">
-            <div class="news-post-wrapper-sm ">
-              <h1 class="text-center">
-                {{ object.title }}
-              </h1>
-              <div class="text-center">
-                <a href="#" class="btn btn-dark font-weight-bold mb-4">{{ object.main_category.title}}</a>
-              </div>
-              <p
-                class="fs-15 d-flex justify-content-center align-items-center m-0"
-              >
-                {{ object.news_room }} | {{ object.created_at }}
-              </p>
-
-            </div>
-
-
-            <div class="row mb-5">
-              <div class="col-lg-12">
-                <img
-                  src="{{ object.content_image.url }}"
-                  alt="news"
-                  class="img-fluid mb-4"
-                />
-              </div>
-              <div class="col-lg-12">
-                <p class="text-white font-weight-medium">
-                   {{ object.quote_text}}
-                </p>
-
-                <p>
-                  {{ object.description|safe}}
-                </p>
-              </div>
-            </div>
-
-              <div class="text-center pb-5 mb-5 border-bottom">
-                <a
-                  href="#"
-                  class="btn btn-dark font-weight-bold mr-2 mb-2 mb-sm-0"
-                  >News</a
-                >
-                <a
-                  href="#"
-                  class="btn btn-dark font-weight-bold mr-2 mb-2 mb-sm-0"
-                  >News</a
-                >
-
-              </div>
-
-              <h1 class="font-weight-600 text-center mb-5">
-                You may also like
-              </h1>
-{% for news in you_may_like %}
-              <div class="border-top py-5">
-                <div class="row">
-                  <div class="col-sm-4">
-                    <div class="position-relative image-hover">
-                      <img
-                        src="{{news.content_image.url}}"
-                        alt="{{ news.image_caption }}"
-                        class="img-fluid"
-                      />
-<!--                      <span class="thumb-title">NEWS</span>-->
+            <div class="news-post-wrapper">
+                <div class="news-post-wrapper-sm ">
+                    <h1 class="text-center">
+                        {{ object.title }}
+                    </h1>
+                    <div class="text-center">
+                        <a href="{% url 'core:main-category-detail' object.main_category.slug %}" class="btn btn-dark font-weight-bold mb-4">{{ object.main_category.title}}</a>
                     </div>
-                  </div>
-                  <div class="col-sm-8">
-                    <div class="position-relative image-hover">
-                      <h1 class="font-weight-600">
-                        <a href="{% url 'core:news-detail' news.slug %}"> {{ news.title }}</a>
-                      </h1>
-                      <p class="fs-15">{{news.news_room}} | {{news.created_at}}</p>
-                    </div>
-                  </div>
+                    <p
+                            class="fs-15 d-flex justify-content-center align-items-center m-0"
+                    >
+                        {{ object.news_room }} | {{ object.created_at }}
+                    </p>
+
                 </div>
-              </div>
-{% endfor %}
+
+
+                <div class="row mb-5">
+                    <div class="col-lg-12">
+                        <img
+                                src="{{ object.content_image.url }}"
+                                alt="news" loading="lazy"
+                                class="img-fluid mb-4"
+                        />
+                    </div>
+                    <div class="col-lg-12">
+                        <p class="text-white font-weight-medium">
+                            {{ object.quote_text}}
+                        </p>
+
+                        <p>
+                            {{ object.description|safe}}
+                        </p>
+                    </div>
+                    <div>
+                        <p>Share:</p>
+                        <a href="https://www.facebook.com/sharer.php?u={{ request.get_host }}/news/{{ object.slug }}/"
+                           onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                           title="Share on Facebook" class="facebook"><i class="fa fa-facebook-square"></i> Facebook</a>
+                        <!--<a href="#" class="pinterest"><i class="fa fa-pinterest"></i> Pinterest</a>-->
+                        <a href="https://www.linkedin.com/shareArticle?url={{ request.get_host }}/news/{{ object.slug }}/"
+                           onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                           title="Share on LinkedIn" class="linkedin"><i class="fa fa-linkedin-square"></i>Linkedin</a>
+                        <a href="https://twitter.com/intent/tweet?text={{ object.title }}&amp;url={{ request.get_host }}/news/{{ object.slug }}/"
+                           onclick="javascript:window.open(this.href,
+								'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+                           class="twitter" title="Share on Twitter"><i class="fa fa-twitter-square"></i> Twitter</a>
+                    </div>
+                </div>
+
+                <div class="text-center pb-5 mb-5 border-bottom">
+                    {% for tag in object.tags.all %}
+                    <a href="{% url 'core:tag-detail' tag.slug %}" class="btn btn-dark font-weight-bold mr-2 mb-2 mb-sm-0">{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <h1 class="font-weight-600 text-center mb-5">
+                    You may also like
+                </h1>
+                {% for news in you_may_like %}
+                <div class="border-top py-5">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="position-relative image-hover">
+                                <img
+                                        src="{{news.content_image.url}}"
+                                        alt="{{ news.image_caption }}" loading="lazy"
+                                        class="img-fluid"
+                                />
+                                <!--                      <span class="thumb-title">NEWS</span>-->
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="position-relative image-hover">
+                                <h1 class="font-weight-600">
+                                    <a href="{% url 'core:news-detail' news.slug %}"> {{ news.title }}</a>
+                                </h1>
+                                <p class="fs-15">{{news.news_room}} | {{news.created_at}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-          </div>
-        {% endfor %}
         </div>
-      </div>
+        {% endfor %}
     </div>
-    {% endblock %}
+
+</div>
+</div>
+{% endblock %}

@@ -50,7 +50,7 @@
                         </ul>
                         <div>
                             <a class="navbar-brand" href="/"
-                            ><img src="{% static 'images/logo.png' %}" alt="logo"
+                            ><img src="{% static 'images/logo.png' %}" alt="logo" loading="lazy"
                             /></a>
                         </div>
                         <div class="d-flex">
@@ -124,7 +124,10 @@
                                 </li>
                                 {% endfor %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="mdi mdi-magnify"></i></a>
+                                            <form name='search' class="d-flex" onsubmit="required()" action="{% url 'core:search' %}"  method="get">
+    <input name="q" type="search" placeholder="Search news" aria-label="Search" style="width:60%; border: 1px solid #000;">
+    <button class="search_button" type="submit"><i class="mdi mdi-magnify"></i></button>
+  </form>
                                 </li>
                             </ul>
                         </div>
@@ -136,56 +139,7 @@
         </header>
         {% block content %}
         <div class="container">
-            <!--          <div class="banner-top-thumb-wrap">-->
-            <!--            <div class="d-lg-flex justify-content-between align-items-center">-->
-            <!--              <div class="d-flex justify-content-between  mb-3 mb-lg-0">-->
-            <!--                <div>-->
-            <!--                  <img-->
-            <!--                    src="{% static 'images/dashboard/star-magazine-1.jpg' %}"-->
-            <!--                    alt="thumb"-->
-            <!--                    class="banner-top-thumb"-->
-            <!--                  />-->
-            <!--                </div>-->
-            <!--                <h5 class="m-0 font-weight-bold">-->
-            <!--                  The morning after: What people-->
-            <!--                </h5>-->
-            <!--              </div>-->
-            <!--              <div class="d-flex justify-content-between mb-3 mb-lg-0">-->
-            <!--                <div>-->
-            <!--                  <img-->
-            <!--                    src="{% static 'images/dashboard/star-magazine-2.jpg' %}"-->
-            <!--                    alt="thumb"-->
-            <!--                    class="banner-top-thumb"-->
-            <!--                  />-->
-            <!--                </div>-->
-            <!--                <h5 class="m-0 font-weight-bold">How Hungary produced the</h5>-->
-            <!--              </div>-->
-            <!--              <div class="d-flex justify-content-between mb-3 mb-lg-0">-->
-            <!--                <div>-->
-            <!--                  <img-->
-            <!--                    src="{% static 'images/dashboard/star-magazine-3.jpg' %}"-->
-            <!--                    alt="thumb"-->
-            <!--                    class="banner-top-thumb"-->
-            <!--                  />-->
-            <!--                </div>-->
-            <!--                <h5 class="m-0 font-weight-bold">-->
-            <!--                  A sleepy island paradise's most-->
-            <!--                </h5>-->
-            <!--              </div>-->
-            <!--              <div class="d-flex justify-content-between mb-3 mb-lg-0">-->
-            <!--                <div>-->
-            <!--                  <img-->
-            <!--                    src="{% static 'images/dashboard/star-magazine-4.jpg' %}"-->
-            <!--                    alt="thumb"-->
-            <!--                    class="banner-top-thumb"-->
-            <!--                  />-->
-            <!--                </div>-->
-            <!--                <h5 class="m-0 font-weight-bold">-->
-            <!--                  America's most popular national-->
-            <!--                </h5>-->
-            <!--              </div>-->
-            <!--            </div>-->
-            <!--          </div>-->
+
             <div class="row">
                 <div class="col-lg-8">
                     <div class="owl-carousel owl-theme" id="main-banner-carousel">
@@ -205,7 +159,7 @@
                                     </p>
                                 </div>
                                 <div class="carousel-image">
-                                    <img src="{{ slider.content_image.url}}" alt="{{ slider.title}}" style="max-width: 100%"/>
+                                    <img src="{{ slider.content_image.url}}" alt="{{ slider.title}}"  loading="lazy" style="max-width: 100%"/>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +178,7 @@
                                 </div>
 
                                 <p class="fs-14 m-0 font-weight-medium line-height-sm">
-                                    <img src="{{six.content_image.url}}" alt="{{six.title}}" style="max-width: 20px;">
+                                    <img src="{{six.content_image.url}}" alt="{{six.title}}" style="max-width: 20px;" loading="lazy">
                                    <a href="{% url 'core:news-detail' six.slug %}">{{ six.title }}</a>
                                 </p>
                             </div>
@@ -252,7 +206,7 @@
                             <div class="position-relative image-hover">
                                 <img
                                         src="{{world.content_image.url}}"
-                                        class="img-fluid"
+                                        class="img-fluid" loading="lazy"
                                         alt="{{world.image_caption}}"
                                 />
                                 <span class="thumb-title">{{ world.image_caption}}</span>
@@ -285,7 +239,7 @@
                         <div class="col-lg-6  mb-5 mb-sm-2">
                             {% for ed1 in editor_choice_1 %}
                             <div class="position-relative image-hover">
-                                <img src="{{ ed1.content_image.url }}" class="img-fluid" alt="world-news">
+                                <img src="{{ ed1.content_image.url }}" class="img-fluid" alt="world-news" loading="lazy">
                                 <span class="thumb-title">NEWS</span>
                             </div>
                             <h1 class="font-weight-600 mt-3">
@@ -302,7 +256,7 @@
                                 <div class="col-sm-6  mb-5 mb-sm-2">
                                     <div class="position-relative image-hover">
                                         <img src="{{ ed4.content_image.url }}" class="img-fluid"
-                                             alt="world-news">
+                                             alt="world-news" loading="lazy">
                                         <span class="thumb-title">POLITICS</span>
                                     </div>
                                     <h5 class="font-weight-600 mt-3">
@@ -337,7 +291,7 @@
                                         <img
                                                 src="{{ pop.content_image.url}}"
                                                 class="img-fluid"
-                                                alt="{{pop.image_caption}}"
+                                                alt="{{pop.image_caption}}" loading="lazy"
                                         />
                                         <span class="thumb-title">{{ pop.image_caption}}</span>
                                     </div>
@@ -353,7 +307,7 @@
                             <div class="position-relative mb-3">
                                 <img
                                         src="{% static 'images/dashboard/star-magazine-15.jpg' %}"
-                                        class="img-fluid"
+                                        class="img-fluid" loading="lazy"
                                         alt="world-news"
                                 />
                                 <div class="video-thumb text-muted">
@@ -445,7 +399,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="d-flex justify-content-between">
-                                <img src="{% static 'images/logo.png' %}" class="footer-logo" alt="logo"/>
+                                <img src="{% static 'images/logo.png' %}" class="footer-logo" loading="lazy" alt="logo"/>
 
                                 <div class="d-flex justify-content-end footer-social">
                                     <h5 class="m-0 font-weight-600 mr-3 d-none d-lg-flex">Follow on</h5>

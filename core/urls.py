@@ -9,8 +9,12 @@ app_name = 'core'
 
 urlpatterns = [
         path('', views.index, name='home'),
+        path('search/', views.search, name='search'),
         path('<slug:slug>/', category, name='main-category-detail'),
         path('news/<slug>/', views.news_details, name='news-detail'),
+        path('tag/<slug:slug>/', views.tagged, name='tag-detail'),
+
+
         # path('news/<slug:slug>/', NewsDetailView.as_view(), name='news-detail'),
 
 
